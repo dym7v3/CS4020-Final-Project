@@ -11,7 +11,7 @@ var gameModel= GameDataModel()
 class Ticker_input : AppCompatActivity() {
 
     lateinit var input_text: EditText
-    private val tickerAdap = adap(this, gameModel.tickers)
+    private val tickerAdap = adap(this, gameModel.tickers, gameModel.stockNames)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,7 @@ class Ticker_input : AppCompatActivity() {
             val handled = false
             if (action == EditorInfo.IME_ACTION_DONE)
             {
-                gameModel.tickers.add(input_text.text.toString())
+                gameModel.processInput(input_text.text.toString())
                 tickerAdap.notifyDataSetChanged()
             }
             handled
