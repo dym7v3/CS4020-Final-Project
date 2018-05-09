@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 
-class adap(context: Context, private var tickers: ArrayList<String>, private var stockNames: ArrayList<String>) : BaseAdapter()  {
+class adap(context: Context, private var tickers: ArrayList<String>, private var stockNames: ArrayList<String>, private  var sectors: ArrayList<String>) : BaseAdapter()  {
 
     var mContext= context
     //The size of the laps list.
@@ -40,6 +40,7 @@ class adap(context: Context, private var tickers: ArrayList<String>, private var
         }
         vh.symbol.text = tickers[position]
         vh.name.text =  stockNames[position]
+        vh.sector.text = sectors[position]
         return mRow
     }
     //Gets the item at the current position that was give the integer.
@@ -51,4 +52,5 @@ class adap(context: Context, private var tickers: ArrayList<String>, private var
 private class ViewHolder(view: View?) {
     val symbol: TextView = view?.findViewById(R.id.Symbol) as TextView
     val name: TextView = view?.findViewById(R.id.Name) as TextView
+    val sector: TextView = view?.findViewById(R.id.Sector) as TextView
 }
