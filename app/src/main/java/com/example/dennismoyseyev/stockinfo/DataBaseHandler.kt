@@ -42,7 +42,7 @@ class DataBaseHandler(context: Context): ManagedSQLiteOpenHelper(context, DB_NAM
           cv.put(StockInfoSchema.Cols.SECTOR, mStock.sector)
           cv.put(StockInfoSchema.Cols.OPEN, mStock.open)
           cv.put(StockInfoSchema.Cols.PERATIO, mStock.peRatio)
-          cv.put(StockInfoSchema.Cols.SYMBOL,mStock.peRatio)
+          cv.put(StockInfoSchema.Cols.SYMBOL,mStock.smybol)
 
         val result = db.insert(StockInfoSchema.NAME,null,cv)
           if(result == (-1).toLong())
@@ -54,53 +54,31 @@ class DataBaseHandler(context: Context): ManagedSQLiteOpenHelper(context, DB_NAM
             Toast.makeText(context, "The Data was successfully added to the database!",Toast.LENGTH_SHORT).show()
           }
       }
+    fun readAllData(context:Context, mStocks: ArrayList<stock>) {
+        val db = this.readableDatabase
+        val query = "Select * from "+StockInfoSchema.NAME
+        val result = db.rawQuery(query,null)
+
+
+        if(result.moveToFirst())
+        {
+            do {
+                val mStock = stock()
+                mStock.latestPrice = result.getString(result.getColumnIndex(StockInfoSchema.Cols.LATESTPRICE))
+                mStock.smybol = result.getString(result.getColumnIndex(StockInfoSchema.Cols.SYMBOL))
+                mStock.sector = result.getString(result.getColumnIndex(StockInfoSchema.Cols.SECTOR))
+                mStock.open = result.getString(result.getColumnIndex(StockInfoSchema.Cols.OPEN))
+                mStock.close = result.getString(result.getColumnIndex(StockInfoSchema.Cols.CLOSE))
+                mStock.companyName= result.getString(result.getColumnIndex(StockInfoSchema.Cols.COMPANYNAME))
+                mStock.peRatio = result.getString(result.getColumnIndex(StockInfoSchema.Cols.PERATIO))
+                mStocks.add(mStock)
+
+            } while(result.moveToNext())
+        }
+        result.close()
+        db.close()
+
+    }
 
 }
-
-//
-//class DataBaseHandler(var context: Context): SQLiteOpenHelper(context, DATABASE_NAME,null,1 )
-//{
-//    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-//
-//    }
-//
-//    override fun onCreate(db: SQLiteDatabase?) {
-//
-//        val createTable = "CREATE TABLE" + TABLE_NAME + " (" +
-//                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
-//                COL_SYMBOL+ "VARCHAR(256),"+
-//                COL_COMPANY_NAME+ "VARCHAR(256),"+
-//                COl_SECTOR+ "VARCHAR(256),"+
-//                COL_PERATIO+ "VARCHAR(256),"+
-//                COL_LATEST_PRICE+ "VARCHAR(256),"+
-//                COL_OPEN+ "VARCHAR(256),"+
-//                COL_CLOSE+ "VARCHAR(256))"
-//
-//        db?.execSQL(createTable)
-//
-//    }
-//
-//    fun insertData(stockInfo: StockInfo)
-//    {
-//        val db = this.writableDatabase
-//        var cv = ContentValues()
-//
-//        cv.put(COL_SYMBOL, stockInfo.symbol)
-//        cv.put(COL_CLOSE, stockInfo.close)
-//        cv.put(COL_COMPANY_NAME, stockInfo.companyName)
-//        cv.put(COl_SECTOR, stockInfo.sector)
-//        cv.put(COL_OPEN, stockInfo.open)
-//        cv.put(COL_LATEST_PRICE,stockInfo.latestPrice)
-//        cv.put(COL_PERATIO,stockInfo.peRatio)
-//        val result = db.insert(TABLE_NAME,null,cv)
-//        if(result == (-1).toLong())
-//        {
-//            Toast.makeText(context, "The insertData Function failed to insert data into the database.",Toast.LENGTH_SHORT).show()
-//        }
-//        else
-//        {
-//            Toast.makeText(context, "The Data was successfully added to the database!",Toast.LENGTH_SHORT).show()
-//        }
-//    }
-//}
 

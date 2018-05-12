@@ -1,12 +1,9 @@
 package com.example.dennismoyseyev.stockinfo
 
-import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.annotation.MainThread
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.Toast
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_ticker_input.*
@@ -80,7 +77,7 @@ class Ticker_input : AppCompatActivity() {
                     {
                         val gson = GsonBuilder().create()
                         val info = gson.fromJson(body, Quotes::class.java)
-                        val myStock = stock(info.quote["symbol"].toString(),info.quote["companyName"].toString(), info.quote["peRatio"].toString(), info.quote["latestPrice"].toString(), info.quote["sector"].toString(), info.quote["oepn"].toString(), info.quote["close"].toString())
+                        val myStock = stock(info.quote["symbol"].toString(),info.quote["companyName"].toString(), info.quote["peRatio"].toString(), info.quote["latestPrice"].toString(), info.quote["sector"].toString(), info.quote["open"].toString(), info.quote["close"].toString())
 
                         runOnUiThread {
                             db.insertData(myStock,this@Ticker_input)
