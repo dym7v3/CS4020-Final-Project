@@ -21,6 +21,7 @@ class stock
     var open: String = ""
     var close: String = ""
 
+
     constructor(smybol: String, companyName: String, peRatio: String, latestPrice: String,  sector: String, open: String,  close: String)
     {
         this.close=close

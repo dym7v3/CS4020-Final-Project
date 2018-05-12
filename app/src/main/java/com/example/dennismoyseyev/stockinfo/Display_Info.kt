@@ -2,7 +2,11 @@ package com.example.dennismoyseyev.stockinfo
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.fragment_more_info.*
+import okhttp3.*
+import java.io.IOException
 
 var myModel = GameDataModel()
 
@@ -18,4 +22,6 @@ class Display_Info : AppCompatActivity() {
         more_info_list.adapter= moreInfoAdap
         moreInfoAdap.notifyDataSetChanged()
     }
+
+
 }

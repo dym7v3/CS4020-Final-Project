@@ -4,7 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import com.google.gson.GsonBuilder
+import com.squareup.picasso.Picasso
+import okhttp3.*
+import java.io.IOException
 
 class information(context: Context, private var STOCKS: ArrayList<stock>) : BaseAdapter()  {
 
@@ -44,12 +50,44 @@ class information(context: Context, private var STOCKS: ArrayList<stock>) : Base
         vh.mPrice.text = STOCKS[position].latestPrice
         vh.mPeRatio.text =STOCKS[position].peRatio
 
+
+        val url = "https://api.iextrading.com/1.0/stock/${STOCKS[position].smybol}/logo"
+        val request = Request.Builder().url(url).build()
+        val client = OkHttpClient()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onResponse(call: Call?, response: Response?) {
+                val body = response?.body()?.string()
+                println("THIS IS THE BODY!!!!!"+body)
+                if (body.equals("Unknown symbol")) {
+
+                }
+                else
+                {
+
+                    Picasso.get().load(body).into(vh.image)
+                }
+            }
+
+            override fun onFailure(call: Call?, e: IOException?) {
+                println("The API request failed to make the call!")
+            }
+        })
+
+
         return mRow
     }
     //Gets the item at the current position that was give the integer.
     override fun getItem(position: Int): Any {
         return STOCKS[position]
     }
+
+
+
+
+
+
+
 }
 //Makes the View Holder. Which I read makes better for scrolling.
 class CustomViewHolder(view: View?) {
@@ -58,4 +96,7 @@ class CustomViewHolder(view: View?) {
     val mClose: TextView = view?.findViewById(R.id.mClose) as TextView
     val mPrice: TextView = view?.findViewById(R.id.mPrice) as TextView
     val mPeRatio: TextView = view?.findViewById(R.id.mPeRatio) as TextView
+    val image: ImageView = view?.findViewById(R.id.Logo) as ImageView
 }
+
+

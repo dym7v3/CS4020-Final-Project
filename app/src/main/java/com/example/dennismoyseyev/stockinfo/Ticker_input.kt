@@ -93,6 +93,8 @@ class Ticker_input : AppCompatActivity() {
                     println("The API request failed to make the call!")
                 }
             })
+
+
         }
         else
         {
