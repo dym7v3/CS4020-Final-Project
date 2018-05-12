@@ -10,4 +10,6 @@ class GameDataModel {
 }
 class Quotes( val quote: Map<String, Any>)
 
+class stock(val smybol: String, val companyName: String, val peRatio: String, val latestPrice: String, val sector: String, val open: String, val close: String )
+
 
